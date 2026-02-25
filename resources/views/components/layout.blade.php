@@ -9,6 +9,7 @@
     <link rel="preconnect" href="<https://fonts.bunny.net>">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="min-h-screen flex flex-col bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 font-sans">
     <x-navbar />
@@ -22,5 +23,6 @@
             <p>© {{ date('Y') }} Laraventory - Built with Laravel and ❤️</p>
         </div>
     </footer>
+    @livewireScripts
 </body>
 </html>
