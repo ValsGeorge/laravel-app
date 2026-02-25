@@ -8,6 +8,9 @@
     <script>
         const stored = localStorage.getItem('laraventory-theme');
         const isDark = stored ? stored === 'dark' : true;
+        if (!stored) {
+            localStorage.setItem('laraventory-theme', 'dark');
+        }
         if (isDark) {
             document.documentElement.classList.add('dark');
         }
