@@ -14,7 +14,7 @@
             </span>
           </label>
           <a href="#" class="px-3 py-1.5 rounded-md text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition">Login</a>
-          <a href="#" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-red-500 text-white hover:opacity-90 transition">Register</a>
+          <a href="#" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition">Register</a>
         </div>
       </div>
   </nav>
