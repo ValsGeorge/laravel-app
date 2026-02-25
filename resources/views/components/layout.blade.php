@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ isset($title) ? $title . ' - Laraventory' : 'Laraventory' }}</title>
+    <script>
+        const stored = localStorage.getItem('laraventory-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = stored ? stored === 'dark' : prefersDark;
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
     <link rel="icon" type="image/svg+xml" href="{{ asset('package-open-stroke-rounded.svg') }}">
     <link rel="preconnect" href="<https://fonts.bunny.net>">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
