@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Register;
 use App\Livewire\Login;
+use App\Livewire\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,6 @@ Route::post('/logout', function () {
     return redirect('/');
 })->middleware('auth')->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('/dashboard', Dashboard::class)
+    ->middleware('auth')
+    ->name('dashboard');

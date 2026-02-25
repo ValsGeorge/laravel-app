@@ -28,7 +28,7 @@
     
         <p class="text-center text-neutral-600 dark:text-neutral-400 text-sm mt-4">
             Don't have an account?
-            {{-- <a href="{{ route('register') }}" class="text-red-500 hover:text-red-700 font-medium">Register here</a> --}}
+            <a href="{{ route('register') }}" class="text-red-500 hover:text-red-700 font-medium">Register here</a>
         </p>
         </div>
     </div>
