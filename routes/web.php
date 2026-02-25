@@ -22,3 +22,7 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->middleware('auth')->name('logout');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
