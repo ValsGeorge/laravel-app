@@ -13,8 +13,24 @@
               <span class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white transition peer-checked:translate-x-4"></span>
             </span>
           </label>
-          <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-md text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition">Login</a>
-          <a href="{{ route('register') }}" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition">Register</a>
-        </div>
+          
+          @if (Auth::check())
+            <div class="">
+              <p class="px-3 py-1.5 rounded-md text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition">Hello, {{ Auth::user()->name }}</p>
+              <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit" class="px-3 py-1.5 rounded-md text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition">
+                  Logout
+                </button>
+              </form>
+            </div>
+
+          @else
+            <div class="">
+              <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-md text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition">Login</a>
+              <a href="{{ route('register') }}" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-black dark:bg-white text-white dark:text-black hover:opacity-90 transition">Register</a>
+            </div>
+            @endif
+          </div>
       </div>
   </nav>

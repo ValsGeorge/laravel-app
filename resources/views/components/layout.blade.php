@@ -7,8 +7,7 @@
     <title>{{ isset($title) ? $title . ' - Laraventory' : 'Laraventory' }}</title>
     <script>
         const stored = localStorage.getItem('laraventory-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const isDark = stored ? stored === 'dark' : prefersDark;
+        const isDark = stored ? stored === 'dark' : true;
         if (isDark) {
             document.documentElement.classList.add('dark');
         }
