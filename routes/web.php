@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Register;
@@ -27,3 +28,7 @@ Route::post('/logout', function () {
 Route::get('/dashboard', Dashboard::class)
     ->middleware('auth')
     ->name('dashboard');
+
+Route::get('/admin', Admin::class)
+    ->middleware(['auth', 'isAdmin'])
+    ->name('admin');

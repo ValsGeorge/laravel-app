@@ -22,6 +22,9 @@
           
           @if (Auth::check())
             <div class="flex flex-row">
+              @if (auth()->user()->isAdmin())
+                <a wire:navigate href="{{ route('admin') }}" class="px-3 py-1.5 rounded-md text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition">Admin Panel</a>
+              @endif
               <p class="px-3 py-1.5 rounded-md text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition">Hello, {{ Auth::user()->name }}</p>
               <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
