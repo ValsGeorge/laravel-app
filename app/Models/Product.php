@@ -40,4 +40,12 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Get the user that owns this product.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -44,7 +44,7 @@
 
       <p class="text-center text-neutral-600 dark:text-neutral-400 text-sm mt-4">
         Already have an account?
-        <a href="{{ route('login') }}" class="text-red-500 hover:text-red-700 font-medium">Login here</a>
+        <a wire:navigate href="{{ route('login') }}" class="text-red-500 hover:text-red-700 font-medium">Login here</a>
       </p>
     </div>
   </div>

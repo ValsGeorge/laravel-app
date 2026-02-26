@@ -4,6 +4,32 @@
         <p class="text-neutral-700 dark:text-neutral-300">This is where you can manage your inventory and view insights.</p>
     </div>
 
+    <div class="flex flex-wrap mt-6 gap-4">
+        {{-- Show the products from the database --}}
+
+        <div name="title">Products</div>
+        <x-card>
+            <div name="content">
+                <ul class="divide-y divide-neutral-200 dark:divide-neutral-700">
+                    @foreach($products as $product)
+                        <li class="py-2 flex flex-col justify-between items-left">
+                            <div>
+                                <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">Name: {{ $product->name }}</h3>
+                                <p class="text-sm text-neutral-600 dark:text-neutral-400">Category: {{ $product->category->name }}</p>
+                            </div>
+                            
+                            <span class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Quantity: {{ $product->stock_qty }}</span>
+                            <span class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Added on: {{ $product->created_at->format('M d, Y') }}</span>
+                            <span class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Added by: {{ $product->user->name }}</span>
+                            <span class="text-sm font-semibold text-red-500">Price: ${{ number_format($product->price, 2) }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </x-card>
+    </div>
+
+
     <div class="">
         <h3 class="text-xl font-semibold mb-2 mt-6">Add New Product</h3>
         

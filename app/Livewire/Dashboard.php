@@ -18,11 +18,19 @@ class Dashboard extends Component
     public $productPrice = '';
     public $successMessage = '';
 
+    public $products = [];
+
+    public function getProducts()
+    {
+        // return Product::where('user_id', \Illuminate\Support\Facades\Auth::id())->get();
+        return Product::with(['category', 'user'])->get();
+    }
+
     public function addProduct()
     {
         try {
             // Validate input
-            $validated = $this->validate([
+            $this->validate([
                 'productName' => 'required|string|max:255',
                 'productQuantity' => 'required|integer|min:1',
                 'productCategory' => 'required|exists:categories,id',
@@ -51,6 +59,7 @@ class Dashboard extends Component
 
     public function render()
     {
+        $this->products = $this->getProducts();
         return view('livewire.dashboard');
     }
 }
