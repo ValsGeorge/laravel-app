@@ -18,7 +18,15 @@
                                 <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">Name:
                                     {{ $product->name }}</h3>
                                 <p class="text-sm text-neutral-600 dark:text-neutral-400">Category:
-                                    {{ $product->category->name }}</p>
+                                    @if($product->category)
+                                        {{ $product->category->name }}
+                                        @if($product->category->trashed())
+                                            <span class="text-red-500 text-xs">(Archived)</span>
+                                        @endif
+                                    @else
+                                        <span class="text-gray-400">Deleted Category</span>
+                                    @endif
+                                </p>
                             </div>
 
                             <span class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">Quantity:

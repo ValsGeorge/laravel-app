@@ -37,4 +37,12 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Get the user who created the category.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

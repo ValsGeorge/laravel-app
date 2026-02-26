@@ -76,4 +76,8 @@
             </table>
         </div>
 
-    </div>
+
+        {{-- Category management section --}}
+        <div class="">
+            @livewire('category-manager')
+        </div>

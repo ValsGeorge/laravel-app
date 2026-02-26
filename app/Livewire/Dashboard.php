@@ -23,8 +23,14 @@ class Dashboard extends Component
 
     public function getProducts()
     {
-        // return Product::where('user_id', \Illuminate\Support\Facades\Auth::id())->get();
-        return Product::with(['category', 'user'])->get();
+
+        // Category is soft-deleted, so we need to include trashed categories in the query to show the category name
+        return Product::with([
+            'category' => function ($query) {
+                $query->withTrashed();
+            },
+            'user'
+        ])->get();
     }
 
     public function addProduct()
