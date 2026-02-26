@@ -17,6 +17,7 @@ class Dashboard extends Component
     public $productCategory = '';
     public $productPrice = '';
     public $successMessage = '';
+    public $errorMessage = '';
 
     public $products = [];
 
@@ -53,7 +54,7 @@ class Dashboard extends Component
             // Show success message
             $this->successMessage = 'Product added successfully!';
         } catch (\Exception $e) {
-            $this->successMessage = 'Error: ' . $e->getMessage();
+            $this->errorMessage = 'Error: ' . $e->getMessage();
         }
     }
 

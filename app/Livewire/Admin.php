@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Auth;
 
 #[Layout('components.layout')]
 #[Title('Admin Dashboard')]
@@ -12,6 +13,8 @@ class Admin extends Component
 {
 
   public $users = [];
+  public $successMessage = '';
+  public $errorMessage = '';
 
   public $editingUserId = null;
   public $editName = '';
@@ -39,6 +42,7 @@ class Admin extends Component
       $user->email = $this->editEmail;
       $user->role = $this->editRole;
       $user->save();
+      $this->successMessage = 'User updated successfully!';
     }
     $this->cancelEdit();
     $this->users = $this->getUsers();
@@ -61,9 +65,16 @@ class Admin extends Component
     return \App\Models\User::select('id', 'name', 'email', 'role', 'created_at')->get();
   }
 
-  public function isAdmin()
+  public function deleteUser($userId)
   {
-    return $this->role === 'admin';
+    $user = \App\Models\User::find($userId);
+    if ($user && $user->id !== Auth::id() && !$user->isAdmin()) {
+      $user->delete();
+      $this->successMessage = 'User deleted successfully!';
+      $this->users = $this->getUsers();
+    } else {
+      $this->errorMessage = 'Cannot delete this user. You cannot delete yourself or another admin.';
+    }
   }
 
 

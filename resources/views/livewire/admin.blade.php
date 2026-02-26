@@ -5,6 +5,19 @@
     {{-- User management section --}}
     <div class="mt-6">
         <h2 class="text-xl font-semibold mb-2">User Management</h2>
+
+        @if ($successMessage)
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" role="alert">
+                <span class="block sm:inline">{{ $successMessage }}</span>
+            </div>
+        @endif
+
+        @if ($errorMessage)
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+                <span class="block sm:inline">{{ $errorMessage }}</span>
+            </div>
+        @endif
+
         <div class="bg-white dark:bg-neutral-800 shadow-md rounded-lg p-4">
             <table class="w-full table-fixed">
                 <thead>
