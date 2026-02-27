@@ -14,6 +14,9 @@ use Livewire\Component;
 #[Title('Category Management')]
 class CategoryManager extends Component
 {
+  // Listen for events from the EditCategoryModal component
+  protected $listeners = ['closeEditCategoryModal' => 'closeModal', 'categoryUpdated' => 'handleCategoryUpdated'];
+
   public $categories;
   public $newCategoryName = '';
   public $newCategoryDescription = '';
@@ -65,6 +68,20 @@ class CategoryManager extends Component
     $this->newCategoryDescription = '';
   }
 
+  public function editCategory($categoryId)
+  {
+    $category = Category::find($categoryId);
+
+    if (! $category) {
+      $this->errorMessage = 'Category not found.';
+      return;
+    }
+
+    $this->editingCategoryId = $categoryId;
+    $this->editCategoryName = $category->name;
+    $this->editCategoryDescription = $category->description;
+  }
+
   public function deleteCategory($categoryId)
   {
     $this->resetMessages();
@@ -92,6 +109,22 @@ class CategoryManager extends Component
   {
     $this->successMessage = '';
     $this->errorMessage = '';
+  }
+
+  public function closeModal()
+  {
+    $this->editingCategoryId = null;
+  }
+
+  public function handleCategoryUpdated($errorMessage = null)
+  {
+    if ($errorMessage) {
+      $this->errorMessage = $errorMessage;
+    } else {
+      $this->successMessage = 'Category updated successfully!';
+    }
+    $this->categories = Category::with('user')->get();
+    $this->editingCategoryId = null;
   }
 
   public function render()

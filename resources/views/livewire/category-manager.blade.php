@@ -54,4 +54,9 @@
             </form>
         </div>
     </div>
+
+    {{-- Edit Category Modal --}}
+    @if ($editingCategoryId)
+        @livewire('edit-category-modal', ['editingCategoryId' => $editingCategoryId], key($editingCategoryId))
+    @endif
 </div>
