@@ -19,7 +19,14 @@ class Dashboard extends Component
     public $successMessage = '';
     public $errorMessage = '';
 
+    public $editProductSuccessMessage = '';
+    public $editProductErrorMessage = '';
+
     public $products = [];
+
+    public $editingProductId = null;
+
+    public $listeners = ['closeEditProductModal' => 'closeModal', 'productUpdate' => 'handleProductUpdated'];
 
     public function getProducts()
     {
@@ -62,6 +69,40 @@ class Dashboard extends Component
         } catch (\Exception $e) {
             $this->errorMessage = 'Error: ' . $e->getMessage();
         }
+    }
+
+    public function deleteProduct($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            $product->delete();
+            $this->successMessage = 'Product deleted successfully!';
+        } catch (\Exception $e) {
+            $this->errorMessage = 'Error deleting product: ' . $e->getMessage();
+        }
+    }
+
+    public function editProduct($id)
+    {
+        $editingProduct = Product::find($id);
+        if (! $editingProduct) {
+            $this->errorMessage = 'Product not found.';
+            return;
+        }
+
+        $this->editingProductId = $id;
+    }
+
+    public function closeModal()
+    {
+        $this->editingProductId = null;
+    }
+
+    public function handleProductUpdated()
+    {
+        $this->products = $this->getProducts();
+        $this->editingProductId = null;
+        $this->editProductSuccessMessage = 'Product updated successfully!';
     }
 
     public function render()

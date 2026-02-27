@@ -9,10 +9,21 @@
         {{-- Show the products from the database --}}
 
         <div name="title">Products</div>
+        @if ($editProductSuccessMessage)
+            <div class="mb-4 p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-lg">
+                {{ $editProductSuccessMessage }}
+            </div>
+        @endif
+        @if ($editProductErrorMessage)
+            <div class="mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 rounded-lg">
+                {{ $editProductErrorMessage }}
+            </div>
+        @endif
         <div name="content" class="">
             <div class="grid grid-cols-2 gap-2">
                 @foreach ($products as $product)
-                    <div class="p-4 bg-white dark:bg-neutral-800 rounded shadow flex flex-col justify-between">
+                    <div
+                        class="group relative p-4 bg-white dark:bg-neutral-800 rounded shadow flex flex-col justify-between">
                         <div>
                             <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">Name:
                                 {{ $product->name }}</h3>
@@ -36,6 +47,22 @@
                             {{ $product->user->name }}</span>
                         <span class="text-sm font-semibold text-red-500">Price:
                             ${{ number_format($product->price, 2) }}</span>
+
+                        {{-- Hover overlay with edit and delete buttons --}}
+                        @if ($product->user_id === auth()->id() || auth()->user()->role === 'admin' || auth()->user()->role === 'moderator')
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded flex items-start justify-end gap-3 p-4"
+                                style="background: rgba(0,0,0,0.2)">
+                                <button wire:click="editProduct({{ $product->id }})"
+                                    class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition">
+                                    Edit
+                                </button>
+                                <button wire:click="deleteProduct({{ $product->id }})"
+                                    wire:confirm="Are you sure you want to delete this product?"
+                                    class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition">
+                                    Delete
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             </div>
@@ -111,3 +138,7 @@
             </form>
         </div>
     </div>
+
+    @if ($editingProductId)
+        @livewire('edit-product-modal', ['editingProductId' => $editingProductId], key($editingProductId))
+    @endif
