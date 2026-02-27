@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Admin;
+use App\Livewire\AdminPanel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\Register;
@@ -29,6 +29,6 @@ Route::get('/dashboard', Dashboard::class)
     ->middleware('auth')
     ->name('dashboard');
 
-Route::get('/admin', Admin::class)
+Route::get('/admin', AdminPanel::class)
     ->middleware(['auth', 'isAdmin'])
     ->name('admin');

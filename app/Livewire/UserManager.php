@@ -5,13 +5,13 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 #[Layout('components.layout')]
-#[Title('Admin Dashboard')]
-class Admin extends Component
+#[Title('User Management')]
+class UserManager extends Component
 {
-
   public $users = [];
   public $successMessage = '';
   public $errorMessage = '';
@@ -77,9 +77,8 @@ class Admin extends Component
     }
   }
 
-
   public function render()
   {
-    return view('livewire.admin');
+    return view('livewire.user-manager');
   }
 }

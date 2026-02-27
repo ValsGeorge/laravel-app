@@ -75,9 +75,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
 
-        {{-- Category management section --}}
-        <div class="">
-            @livewire('category-manager')
-        </div>
+    {{-- Category management section --}}
+    <div class="mt-6">
+        @livewire('category-manager')
+    </div>
+</div>
