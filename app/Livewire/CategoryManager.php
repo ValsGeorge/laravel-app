@@ -2,16 +2,18 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-use App\Models\Category;
+use Livewire\Component;
 
 #[Layout('components.layout')]
 #[Title('Category Management')]
 class CategoryManager extends Component
 {
-
   public $categories;
   public $newCategoryName = '';
   public $newCategoryDescription = '';
@@ -20,33 +22,72 @@ class CategoryManager extends Component
 
   public function mount()
   {
-    $this->categories = Category::with('user')->get()->collect();
+    $this->categories = Category::with('user')->get();
   }
 
-  // ! First thing tomorrow: What should happen if a category is self-deleted and we try to create a new category with the same name?
+  protected function rules()
+  {
+    return [
+      'newCategoryName' => [
+        'required',
+        'string',
+        'max:255',
+        // Unique only among NOT deleted categories
+        Rule::unique('categories', 'name')->whereNull('deleted_at'),
+      ],
+      'newCategoryDescription' => ['nullable', 'string', 'max:2000'],
+    ];
+  }
+
   public function addCategory()
   {
+    $this->resetMessages();
+
+    $this->newCategoryName = trim($this->newCategoryName);
+
+    $this->validate();
+
     $newCategory = Category::create([
-      'user_id' => \Illuminate\Support\Facades\Auth::id(),
+      'user_id' => Auth::id(),
       'name' => $this->newCategoryName,
-      'description' => $this->newCategoryDescription,
+      'description' => $this->newCategoryDescription ?: null,
       'is_active' => true,
     ]);
 
     $this->categories->push($newCategory);
+
     $this->successMessage = 'Category added successfully!';
+    $this->newCategoryName = '';
+    $this->newCategoryDescription = '';
   }
 
   public function deleteCategory($categoryId)
   {
+    $this->resetMessages();
+
     $category = Category::find($categoryId);
-    if ($category) {
-      $category->delete();
-      $this->categories = $this->categories->filter(fn($cat) => $cat->id !== $categoryId);
-      $this->successMessage = 'Category deleted successfully!';
-    } else {
+
+    if (! $category) {
       $this->errorMessage = 'Category not found.';
+      return;
     }
+
+    $deletedName = 'deleted_' . Str::random(8) . '_' . now()->format('YmdHis');
+    $category->old_name = $category->name;
+    $category->name = $deletedName;
+    $category->save();
+
+    $category->delete();
+
+    $this->categories = $this->categories->reject(fn($cat) => $cat->id === (int) $categoryId);
+
+    $this->successMessage = 'Category deleted successfully!';
+  }
+
+  private function resetMessages()
+  {
+    $this->successMessage = '';
+    $this->errorMessage = '';
   }
 
   public function render()

@@ -24,7 +24,7 @@ class Dashboard extends Component
     public function getProducts()
     {
 
-        // Category is soft-deleted, so we need to include trashed categories in the query to show the category name
+        // Category is soft-deleted, so we need to include trashed categories in the query to have the old category name
         return Product::with([
             'category' => function ($query) {
                 $query->withTrashed();

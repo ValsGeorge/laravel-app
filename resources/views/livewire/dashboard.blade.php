@@ -18,9 +18,10 @@
                                 <h3 class="text-lg font-medium text-neutral-900 dark:text-neutral-100">Name:
                                     {{ $product->name }}</h3>
                                 <p class="text-sm text-neutral-600 dark:text-neutral-400">Category:
-                                    @if($product->category)
-                                        {{ $product->category->name }}
-                                        @if($product->category->trashed())
+                                    {{-- {{ $product->category }} --}}
+                                    @if ($product->category)
+                                        {{ $product->category->name && !$product->category->trashed() ? $product->category->name : $product->category->old_name }}
+                                        @if ($product->category->trashed())
                                             <span class="text-red-500 text-xs">(Archived)</span>
                                         @endif
                                     @else
