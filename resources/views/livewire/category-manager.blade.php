@@ -11,7 +11,9 @@
                     <th class="px-4 py-2 text-left w-1/4">User ID</th>
                     <th class="px-4 py-2 text-left w-1/6">User Name</th>
                     <th class="px-4 py-2 text-left w-1/3">Category Name</th>
+                    <th class="px-4 py-2 text-left w-1/3">Category Description</th>
                     <th class="px-4 py-2 text-left w-1/3">Created</th>
+                    <th class="px-4 py-2 text-left w-1/3">Updated</th>
                     <th class="px-4 py-2 text-left w-1/3">Actions</th>
                 </tr>
             </thead>
@@ -22,9 +24,13 @@
                         <td class="px-4 py-2">{{ $category->user_id }}</td>
                         <td class="px-4 py-2">{{ $category->user ? $category->user->name : 'N/A' }}</td>
                         <td class="px-4 py-2">{{ $category->name }}</td>
+                        <td class="px-4 py-2">{{ $category->description }}</td>
                         <td class="px-4 py-2">{{ $category->created_at->format('Y-m-d') }}</td>
+                        <td class="px-4 py-2">{{ $category->updated_at->format('Y-m-d') }}</td>
                         <td class="px-4 py-2">
                             <div class="flex space-x-2">
+                                <button wire:click="editCategory({{ $category->id }})"
+                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm transition">Edit</button>
                                 <button wire:click="deleteCategory({{ $category->id }})"
                                     class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition">Delete</button>
                             </div>

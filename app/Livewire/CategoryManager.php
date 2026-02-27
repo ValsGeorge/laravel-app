@@ -20,6 +20,10 @@ class CategoryManager extends Component
   public $successMessage = '';
   public $errorMessage = '';
 
+  public $editingCategoryId = null;
+  public $editCategoryName = '';
+  public $editCategoryDescription = '';
+
   public function mount()
   {
     $this->categories = Category::with('user')->get();
