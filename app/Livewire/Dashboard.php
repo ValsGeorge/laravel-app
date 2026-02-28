@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Product;
 
+use Livewire\WithPagination;
+
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 
@@ -12,6 +14,9 @@ use Livewire\Attributes\Title;
 #[Title('Dashboard')]
 class Dashboard extends Component
 {
+
+    use WithPagination;
+
     public $productName = '';
     public $productQuantity = '';
     public $productCategory = '';
@@ -22,22 +27,40 @@ class Dashboard extends Component
     public $editProductSuccessMessage = '';
     public $editProductErrorMessage = '';
 
-    public $products = [];
-
     public $editingProductId = null;
+
+    // Filter properties
+    public $filterCategory = '';
+    public $filterName = '';
 
     public $listeners = ['closeEditProductModal' => 'closeModal', 'productUpdate' => 'handleProductUpdated'];
 
     public function getProducts()
     {
-
-        // Category is soft-deleted, so we need to include trashed categories in the query to have the old category name
-        return Product::with([
+        $query = Product::with([
             'category' => function ($query) {
                 $query->withTrashed();
             },
             'user'
-        ])->get();
+        ]);
+
+        // Apply filters
+        if ($this->filterCategory) {
+            $query->where('category_id', $this->filterCategory);
+        }
+
+        if ($this->filterName) {
+            $query->where('name', 'like', '%' . $this->filterName . '%');
+        }
+
+        return $query->paginate(4);
+    }
+
+    public function resetFilters()
+    {
+        $this->filterCategory = '';
+        $this->filterName = '';
+        $this->resetPage();
     }
 
     public function addProduct()
@@ -66,6 +89,7 @@ class Dashboard extends Component
 
             // Show success message
             $this->successMessage = 'Product added successfully!';
+            $this->resetPage();
         } catch (\Exception $e) {
             $this->errorMessage = 'Error: ' . $e->getMessage();
         }
@@ -100,14 +124,14 @@ class Dashboard extends Component
 
     public function handleProductUpdated()
     {
-        $this->products = $this->getProducts();
         $this->editingProductId = null;
         $this->editProductSuccessMessage = 'Product updated successfully!';
     }
 
     public function render()
     {
-        $this->products = $this->getProducts();
-        return view('livewire.dashboard');
+        return view('livewire.dashboard', [
+            'products' => $this->getProducts(),
+        ]);
     }
 }
