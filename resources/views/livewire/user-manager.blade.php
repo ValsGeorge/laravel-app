@@ -55,7 +55,7 @@
                         @else
                             <td class="px-4 py-2">{{ $user->name }}</td>
                             <td class="px-4 py-2">{{ $user->email }}</td>
-                            <td class="px-4 py-2">{{ $user->isAdmin() ? 'Admin' : 'User' }}</td>
+                            <td class="px-4 py-2">{{ ucfirst($user->role) }}</td>
                             <td class="px-4 py-2">
                                 <div class="flex space-x-2">
                                     <button wire:click="updateUserInfo({{ $user->id }})"
